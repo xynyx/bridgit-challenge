@@ -1,8 +1,8 @@
-import { ADD_ITEM, DELETE_ITEM, SET_CATEGORY_FILTERS } from "../actionTypes";
+import { ADD_ITEM, DELETE_ITEM } from "../actionTypes";
 
 const initialState = [
   {
-    name: "Carrot",
+    name: "Carrots",
     category: "Vegetable",
     price: "$1.00",
   },
@@ -12,9 +12,14 @@ const initialState = [
     price: "$10.00",
   },
   {
-    name: "Raspberry",
+    name: "Raspberries",
     category: "Fruit",
     price: "$5.00",
+  },
+  {
+    name: "Rye Bread",
+    category: "Grains",
+    price: "$2.00",
   },
 ];
 
@@ -24,16 +29,10 @@ export default function (state = initialState, action) {
       return [...state, action.payload];
     case DELETE_ITEM:
       const newState = [...state];
-      newState.splice(action.index, 1);
-      return newState;
-    // case SET_CATEGORY_FILTERS:
-    //   // if (action.payload.length === 0) return state;
 
-    //   const itemsAfterFilter = state.filter(item => {
-    //     return action.payload.includes(item.category);
-    //   });
-    //   console.log('itemsAfterFilter', itemsAfterFilter)
-    //   return Object.assign([], itemsAfterFilter);
+      newState.splice(action.index, 1);
+
+      return newState;
     default:
       return state;
   }

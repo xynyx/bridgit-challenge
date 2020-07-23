@@ -5,7 +5,6 @@ import AddItem from "./components/AddItem";
 import FilterItems from "./components/FilterItems";
 import ItemTable from "./components/ItemTable";
 
-
 const App = () => (
   <>
     <header className="app-header">

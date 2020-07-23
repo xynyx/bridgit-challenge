@@ -1,26 +1,18 @@
-import React, { useMemo, useEffect } from "react";
-import { makeStyles, withStyles, useTheme } from "@material-ui/core/styles";
+import React, { useMemo } from "react";
+import { connect } from "react-redux";
 
+import { withStyles } from "@material-ui/core/styles";
 import MaUTable from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Button from "@material-ui/core/Button";
-import { deleteItemFromList } from "../redux/actions";
 
 import { useTable, useSortBy } from "react-table";
-import { connect } from "react-redux";
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    textAlign: "center",
-  },
-}));
+import { deleteItemFromList } from "../redux/actions";
 
 function ItemTable({ items, deleteItemFromList, filters }) {
-  const classes = useStyles();
-
   const StyledTableHeader = withStyles(theme => ({
     head: {
       backgroundColor: theme.palette.primary.main,
@@ -29,6 +21,20 @@ function ItemTable({ items, deleteItemFromList, filters }) {
     },
   }))(TableCell);
 
+  // Filter items based on category filters
+  // If no filters and this is called, just return all the items
+  const itemsAfterFilter = () => {
+    if (filters.length === 0) return items;
+
+    return items.filter(item => filters.includes(item.category));
+  };
+
+  // Watch for changes in items and filters and update list accordingly
+  const data = useMemo(() => {
+    return itemsAfterFilter();
+  }, [items, filters]);
+
+  // Set columns for table
   const columns = useMemo(
     () => [
       {
@@ -51,16 +57,7 @@ function ItemTable({ items, deleteItemFromList, filters }) {
     []
   );
 
-  const itemsAfterFilter = () => {
-    if (filters.length === 0) return items;
-
-    return items.filter(item => filters.includes(item.category));
-  };
-
-  const data = useMemo(() => {
-    return itemsAfterFilter();
-  }, [items, filters]);
-
+  // React Table set-up
   const { getTableProps, headerGroups, rows, prepareRow } = useTable(
     {
       columns,
@@ -69,19 +66,12 @@ function ItemTable({ items, deleteItemFromList, filters }) {
     useSortBy
   );
 
-  // useEffect(() => {
-  //   // itemsAfterFilter();
-  // }, [filters]);
-
   const handleItemDelete = row => {
-    // row.id gives the indexed location of the item in the original array in state
     deleteItemFromList(row.id);
   };
 
-  // console.log("itemsAfterFilter", itemsAfterFilter());
-
   return (
-    <MaUTable className={classes.root} {...getTableProps()}>
+    <MaUTable {...getTableProps()}>
       <TableHead>
         {headerGroups.map(headerGroup => (
           <TableRow {...headerGroup.getHeaderGroupProps()}>

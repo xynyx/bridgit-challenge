@@ -1,13 +1,10 @@
-import React, { useState, useEffect } from "react";
-import clsx from "clsx";
+import React from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
-import ListItemText from "@material-ui/core/ListItemText";
 import Select from "@material-ui/core/Select";
-import Checkbox from "@material-ui/core/Checkbox";
 import Chip from "@material-ui/core/Chip";
 import { setCategoryFilters } from "../redux/actions";
 import { connect } from "react-redux";
@@ -21,7 +18,7 @@ const useStyles = makeStyles(theme => ({
   },
   formControl: {
     margin: theme.spacing(1),
-    width: 350
+    width: 350,
   },
   chips: {
     display: "flex",
@@ -46,8 +43,6 @@ const MenuProps = {
   },
 };
 
-const categoryData = ["Vegetable", "Fruit", "Meat", "Grains"];
-
 function getStyles(name, categories, theme) {
   return {
     fontWeight:
@@ -60,39 +55,12 @@ function getStyles(name, categories, theme) {
 function FilterItems({ setCategoryFilters, filters }) {
   const classes = useStyles();
   const theme = useTheme();
-  // const [categories, setCategories] = useState([]);
-  // const [filteredItems, setFilteredItems] = useState()
+
+  const categoryData = ["Vegetable", "Fruit", "Meat", "Grains"];
 
   const handleChange = e => {
-    // setCategories(event.target.value);
-    // console.log("e.target.value", e.target.value);
     setCategoryFilters(e.target.value);
   };
-
-  // useEffect(() => {
-  //   // console.log("categories", categories);
-  //   filterItems();
-  // }, []);
-
-  const filterItems = () => {
-    // setCategoryFilters(categories);
-  };
-
-  // const itemsAfterFilter = state.filter(item => {
-  //   return action.payload.includes(item.category);
-  // });
-  // console.log('itemsAfterFilter', itemsAfterFilter)
-
-  // const handleChangeMultiple = event => {
-  //   const { options } = event.target;
-  //   const value = [];
-  //   for (let i = 0, l = options.length; i < l; i += 1) {
-  //     if (options[i].selected) {
-  //       value.push(options[i].value);
-  //     }
-  //   }
-  //   setCategories(value);
-  // };
 
   return (
     <div className={classes.root}>
@@ -103,7 +71,6 @@ function FilterItems({ setCategoryFilters, filters }) {
           id="demo-mutiple-chip"
           multiple
           value={filters}
-          // categories
           onChange={handleChange}
           input={<Input id="select-multiple-chip" />}
           renderValue={selected => (
