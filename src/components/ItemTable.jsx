@@ -77,7 +77,7 @@ function ItemTable({ items }) {
               {row.cells.map((cell, index) => {
                 return (
                   <TableCell {...cell.getCellProps()}>
-                    {index === data.length ? (
+                    {index === columns.length - 1? (
                       <Button variant="contained" color="secondary">
                         Delete
                       </Button>
@@ -95,7 +95,6 @@ function ItemTable({ items }) {
   );
 }
 const mapStateToProps = state => {
-  console.log("state", state.item);
   return { items: state.item };
 };
 
