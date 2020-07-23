@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import clsx from "clsx";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Input from "@material-ui/core/Input";
@@ -41,7 +41,7 @@ const MenuProps = {
   },
 };
 
-const categoryData = ["Vegetables", "Fruit", "Meat", "Grains"];
+const categoryData = ["Vegetable", "Fruit", "Meat", "Grains"];
 
 function getStyles(name, categories, theme) {
   return {
@@ -55,14 +55,24 @@ function getStyles(name, categories, theme) {
 function FilterItems({ setCategoryFilters, items }) {
   const classes = useStyles();
   const theme = useTheme();
-  const [categories, setCategories] = React.useState([]);
-  console.log("categories", categories);
+  const [categories, setCategories] = useState([]);
 
   const handleChange = event => {
     setCategories(event.target.value);
   };
 
-  const setFilters = () => {};
+  useEffect(() => {
+    filterItems();
+  }, [categories]);
+
+  const filterItems = () => {
+    console.log("items", items);
+    console.log("categories" , categories);
+    const itemsAfterFilter = items.filter(item => {
+      return categories.includes(item.category)
+    })
+    console.log('itemsAfterFilter', itemsAfterFilter)
+  };
 
   // const handleChangeMultiple = event => {
   //   const { options } = event.target;

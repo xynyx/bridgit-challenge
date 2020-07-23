@@ -14,7 +14,8 @@ export const deleteItemFromList = index => dispatch => {
   });
 };
 
-export const setCategoryFilters = categories => dispatch => {
+export const setCategoryFilters = (categories, items) => dispatch => {
+  console.log('categories', categories)
   dispatch({
     type: SET_CATEGORY_FILTERS,
     payload: categories,
