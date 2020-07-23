@@ -1,4 +1,4 @@
-import { ADD_ITEM } from "../actionTypes";
+import { ADD_ITEM, DELETE_ITEM } from "../actionTypes";
 
 const initialState = [
   {
@@ -19,12 +19,13 @@ const initialState = [
 ];
 
 export default function (state = initialState, action) {
-  console.log("here")
   switch (action.type) {
-
     case ADD_ITEM:
-      console.log("hesdfre?")
       return [...state, action.payload];
+    case DELETE_ITEM:
+      const newState = [...state];
+      newState.splice(action.index, 1);
+      return newState;
     default:
       return state;
   }

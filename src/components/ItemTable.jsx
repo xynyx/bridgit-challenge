@@ -6,14 +6,12 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Button from "@material-ui/core/Button";
+import { deleteItemFromList } from "../redux/actions";
 
 import { useTable, useSortBy } from "react-table";
 import { connect } from "react-redux";
 
-// import makeData from "./makeData";
-
-function ItemTable({ items }) {
-  console.log("item", items);
+function ItemTable({ items, deleteItemFromList }) {
   const columns = useMemo(
     () => [
       {
@@ -40,21 +38,18 @@ function ItemTable({ items }) {
     return items;
   }, [items]);
 
-  // useEffect(() => {}, [items]);
-
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = useTable(
+  const { getTableProps, headerGroups, rows, prepareRow } = useTable(
     {
       columns,
       data,
     },
     useSortBy
   );
+
+  const handleItemDelete = row => {
+    // row.id gives the indexed location of the item in the original array in state
+    deleteItemFromList(row.id);
+  };
 
   return (
     <MaUTable {...getTableProps()}>
@@ -71,7 +66,6 @@ function ItemTable({ items }) {
                   {...column.getHeaderProps(column.getSortByToggleProps())}
                 >
                   {column.render("Header")}
-                  {console.log(index)}
                   {index === columns.length - 1 ? (
                     ""
                   ) : (
@@ -98,7 +92,11 @@ function ItemTable({ items }) {
                 return (
                   <TableCell {...cell.getCellProps()}>
                     {index === columns.length - 1 ? (
-                      <Button variant="contained" color="secondary">
+                      <Button
+                        onClick={() => handleItemDelete(row)}
+                        variant="contained"
+                        color="secondary"
+                      >
                         Delete
                       </Button>
                     ) : (
@@ -118,6 +116,4 @@ const mapStateToProps = state => {
   return { items: state.item };
 };
 
-export default connect(mapStateToProps)(ItemTable);
-
-// const data = React.useMemo(() => makeData(2000), []);
+export default connect(mapStateToProps, { deleteItemFromList })(ItemTable);
