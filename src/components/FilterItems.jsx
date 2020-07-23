@@ -53,7 +53,6 @@ function getStyles(name, categories, theme) {
 }
 
 function FilterItems({ setCategoryFilters, filters }) {
-  console.log("filters", filters);
   const classes = useStyles();
   const theme = useTheme();
   // const [categories, setCategories] = useState([]);

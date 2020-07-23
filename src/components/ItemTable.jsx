@@ -11,7 +11,8 @@ import { deleteItemFromList } from "../redux/actions";
 import { useTable, useSortBy } from "react-table";
 import { connect } from "react-redux";
 
-function ItemTable({ items, deleteItemFromList }) {
+function ItemTable({ items, deleteItemFromList, filters }) {
+  console.log('items', items)
   const columns = useMemo(
     () => [
       {
@@ -34,9 +35,18 @@ function ItemTable({ items, deleteItemFromList }) {
     []
   );
 
+  const itemsAfterFilter = () => {
+    if (filters.length === 0) return items;
+    return items.filter(item => {
+      console.log('item', item)
+      return filters.includes(item.category);
+    });
+  };
+
   const data = useMemo(() => {
-    return items;
-  }, [items]);
+    console.log('itemsAfterFilter()', itemsAfterFilter())
+    return itemsAfterFilter();
+  }, [items, filters]);
 
   const { getTableProps, headerGroups, rows, prepareRow } = useTable(
     {
@@ -46,10 +56,16 @@ function ItemTable({ items, deleteItemFromList }) {
     useSortBy
   );
 
+  // useEffect(() => {
+  //   // itemsAfterFilter();
+  // }, [filters]);
+
   const handleItemDelete = row => {
     // row.id gives the indexed location of the item in the original array in state
     deleteItemFromList(row.id);
   };
+
+  // console.log("itemsAfterFilter", itemsAfterFilter());
 
   return (
     <MaUTable {...getTableProps()}>
@@ -113,7 +129,7 @@ function ItemTable({ items, deleteItemFromList }) {
   );
 }
 const mapStateToProps = state => {
-  return { items: state.item };
+  return { items: state.items, filters: state.filters };
 };
 
 export default connect(mapStateToProps, { deleteItemFromList })(ItemTable);
