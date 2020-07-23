@@ -4,7 +4,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import TextField from '@material-ui/core/TextField';
 
-import TextFieldInput from "../common/TextFieldInput";
 import { addItemToList, setErrors } from "../redux/actions";
 
 const useStyles = makeStyles(theme => ({
