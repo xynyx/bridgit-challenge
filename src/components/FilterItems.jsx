@@ -52,27 +52,32 @@ function getStyles(name, categories, theme) {
   };
 }
 
-function FilterItems({ setCategoryFilters, items }) {
+function FilterItems({ setCategoryFilters, filters }) {
+  console.log("filters", filters);
   const classes = useStyles();
   const theme = useTheme();
-  const [categories, setCategories] = useState([]);
+  // const [categories, setCategories] = useState([]);
+  // const [filteredItems, setFilteredItems] = useState()
 
-  const handleChange = event => {
-    setCategories(event.target.value);
+  const handleChange = e => {
+    // setCategories(event.target.value);
+    // console.log("e.target.value", e.target.value);
+    setCategoryFilters(e.target.value)
   };
 
-  useEffect(() => {
-    filterItems();
-  }, [categories]);
+  // useEffect(() => {
+  //   // console.log("categories", categories);
+  //   filterItems();
+  // }, []);
 
   const filterItems = () => {
-    console.log("items", items);
-    console.log("categories" , categories);
-    const itemsAfterFilter = items.filter(item => {
-      return categories.includes(item.category)
-    })
-    console.log('itemsAfterFilter', itemsAfterFilter)
+    // setCategoryFilters(categories);
   };
+
+  // const itemsAfterFilter = state.filter(item => {
+  //   return action.payload.includes(item.category);
+  // });
+  // console.log('itemsAfterFilter', itemsAfterFilter)
 
   // const handleChangeMultiple = event => {
   //   const { options } = event.target;
@@ -93,7 +98,8 @@ function FilterItems({ setCategoryFilters, items }) {
           labelId="demo-mutiple-chip-label"
           id="demo-mutiple-chip"
           multiple
-          value={categories}
+          value={filters}
+          // categories
           onChange={handleChange}
           input={<Input id="select-multiple-chip" />}
           renderValue={selected => (
@@ -109,7 +115,7 @@ function FilterItems({ setCategoryFilters, items }) {
             <MenuItem
               key={name}
               value={name}
-              style={getStyles(name, categories, theme)}
+              style={getStyles(name, filters, theme)}
             >
               {name}
             </MenuItem>
@@ -121,7 +127,7 @@ function FilterItems({ setCategoryFilters, items }) {
 }
 
 const mapStateToProps = state => {
-  return { items: state.item };
+  return { items: state.item, filters: state.filters };
 };
 
 export default connect(mapStateToProps, { setCategoryFilters })(FilterItems);
