@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function AddItem(props) {
+function AddItem({ addItemToList }) {
   const classes = useStyles();
   const [item, setItem] = useState({
     name: "",
@@ -29,7 +29,7 @@ function AddItem(props) {
 
   const handleAddItem = e => {
     e.preventDefault();
-    props.addItemToList(item);
+    addItemToList(item);
     setItem({
       name: "",
       category: "",

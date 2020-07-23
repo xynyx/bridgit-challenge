@@ -1,4 +1,4 @@
-import { ADD_ITEM, DELETE_ITEM } from "./actionTypes";
+import { ADD_ITEM, DELETE_ITEM, SET_CATEGORY_FILTERS } from "./actionTypes";
 
 export const addItemToList = item => dispatch => {
   dispatch({
@@ -11,5 +11,12 @@ export const deleteItemFromList = index => dispatch => {
   dispatch({
     type: DELETE_ITEM,
     index,
+  });
+};
+
+export const setCategoryFilters = categories => dispatch => {
+  dispatch({
+    type: SET_CATEGORY_FILTERS,
+    payload: categories,
   });
 };

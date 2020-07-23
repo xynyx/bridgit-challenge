@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import clsx from "clsx";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Input from "@material-ui/core/Input";
@@ -9,6 +9,8 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Select from "@material-ui/core/Select";
 import Checkbox from "@material-ui/core/Checkbox";
 import Chip from "@material-ui/core/Chip";
+import { setCategoryFilters } from "../redux/actions";
+import { connect } from "react-redux";
 
 const useStyles = makeStyles(theme => ({
   formControl: {
@@ -39,31 +41,28 @@ const MenuProps = {
   },
 };
 
-const names = [
-  "Vegetables",
-  "Fruit",
-  "Meat",
-  "Grains"
-];
+const categoryData = ["Vegetables", "Fruit", "Meat", "Grains"];
 
-function getStyles(name, personName, theme) {
+function getStyles(name, categories, theme) {
   return {
     fontWeight:
-      personName.indexOf(name) === -1
+      categories.indexOf(name) === -1
         ? theme.typography.fontWeightRegular
         : theme.typography.fontWeightMedium,
   };
 }
 
-export default function MultipleSelect() {
+function FilterItems({ setCategoryFilters, items }) {
   const classes = useStyles();
   const theme = useTheme();
-  const [personName, setPersonName] = React.useState([]);
-  console.log('personName', personName)
+  const [categories, setCategories] = React.useState([]);
+  console.log("categories", categories);
 
   const handleChange = event => {
-    setPersonName(event.target.value);
+    setCategories(event.target.value);
   };
+
+  const setFilters = () => {};
 
   // const handleChangeMultiple = event => {
   //   const { options } = event.target;
@@ -73,18 +72,18 @@ export default function MultipleSelect() {
   //       value.push(options[i].value);
   //     }
   //   }
-  //   setPersonName(value);
+  //   setCategories(value);
   // };
 
   return (
     <div>
       <FormControl className={classes.formControl}>
-        <InputLabel id="demo-mutiple-chip-label">Chip</InputLabel>
+        <InputLabel id="demo-mutiple-chip-label">Filter</InputLabel>
         <Select
           labelId="demo-mutiple-chip-label"
           id="demo-mutiple-chip"
           multiple
-          value={personName}
+          value={categories}
           onChange={handleChange}
           input={<Input id="select-multiple-chip" />}
           renderValue={selected => (
@@ -96,11 +95,11 @@ export default function MultipleSelect() {
           )}
           MenuProps={MenuProps}
         >
-          {names.map(name => (
+          {categoryData.map(name => (
             <MenuItem
               key={name}
               value={name}
-              style={getStyles(name, personName, theme)}
+              style={getStyles(name, categories, theme)}
             >
               {name}
             </MenuItem>
@@ -110,3 +109,9 @@ export default function MultipleSelect() {
     </div>
   );
 }
+
+const mapStateToProps = state => {
+  return { items: state.item };
+};
+
+export default connect(mapStateToProps, { setCategoryFilters })(FilterItems);
