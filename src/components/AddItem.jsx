@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextFieldInput from "../common/TextFieldInput";
 import Button from "@material-ui/core/Button";
+import { connect } from "react-redux";
+import { addItemToList } from "../redux/actions";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -17,19 +19,31 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const handleAddItem = e => {
-  console.log("e.target", e.target);
-};
-
-const handleItemChange = e => {
-  console.log(e.target.value);
-  console.log('e.target.name', e.target.name)
-};
-
-export default function AddItem() {
+function AddItem(props) {
   const classes = useStyles();
+  const [item, setItem] = useState({
+    item: "",
+    category: "",
+    value: "",
+  });
+
+  const handleAddItem = e => {
+    e.preventDefault();
+    console.log("item", item);
+    props.addItemToList(item);
+  };
+
+  const handleItemChange = e => {
+    setItem({ ...item, [e.target.name]: e.target.value });
+  };
+
   return (
-    <form className={classes.root} noValidate autoComplete="off">
+    <form
+      onSubmit={handleAddItem}
+      className={classes.root}
+      noValidate
+      autoComplete="off"
+    >
       <TextFieldInput onChange={handleItemChange} name="item" label="Item" />
       <TextFieldInput
         onChange={handleItemChange}
@@ -48,3 +62,10 @@ export default function AddItem() {
     </form>
   );
 }
+
+// const mapStateToProps = state => {
+//   console.log("state", state.item);
+//   return { item: state.item };
+// };
+
+export default connect(null, { addItemToList })(AddItem);
