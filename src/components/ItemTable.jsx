@@ -1,4 +1,5 @@
 import React, { useMemo, useEffect } from "react";
+import { makeStyles, withStyles, useTheme } from "@material-ui/core/styles";
 
 import MaUTable from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -11,7 +12,23 @@ import { deleteItemFromList } from "../redux/actions";
 import { useTable, useSortBy } from "react-table";
 import { connect } from "react-redux";
 
+const useStyles = makeStyles(theme => ({
+  root: {
+    textAlign: "center",
+  },
+}));
+
 function ItemTable({ items, deleteItemFromList, filters }) {
+  const classes = useStyles();
+
+  const StyledTableHeader = withStyles(theme => ({
+    head: {
+      backgroundColor: theme.palette.primary.main,
+      color: theme.palette.common.white,
+      fontSize: "1.3em",
+    },
+  }))(TableCell);
+
   const columns = useMemo(
     () => [
       {
@@ -64,17 +81,17 @@ function ItemTable({ items, deleteItemFromList, filters }) {
   // console.log("itemsAfterFilter", itemsAfterFilter());
 
   return (
-    <MaUTable {...getTableProps()}>
+    <MaUTable className={classes.root} {...getTableProps()}>
       <TableHead>
         {headerGroups.map(headerGroup => (
           <TableRow {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map((column, index) => {
               return index === columns.length - 1 ? (
-                <TableCell {...column.getHeaderProps()}>
+                <StyledTableHeader {...column.getHeaderProps()}>
                   {column.render("Header")}
-                </TableCell>
+                </StyledTableHeader>
               ) : (
-                <TableCell
+                <StyledTableHeader
                   {...column.getHeaderProps(column.getSortByToggleProps())}
                 >
                   {column.render("Header")}
@@ -89,7 +106,7 @@ function ItemTable({ items, deleteItemFromList, filters }) {
                         : ""}
                     </span>
                   )}
-                </TableCell>
+                </StyledTableHeader>
               );
             })}
           </TableRow>

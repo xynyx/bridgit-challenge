@@ -11,6 +11,10 @@ const useStyles = makeStyles(theme => ({
       margin: theme.spacing(1),
       width: "25ch",
     },
+    margin: "3em auto",
+    transform: "translateX(30px)",
+    maxWidth: 900,
+    minWidth: 400,
   },
   button: {
     marginTop: 9,
@@ -30,8 +34,9 @@ function AddItem({ addItemToList, setErrors, errors }) {
 
   const handleAddItem = e => {
     e.preventDefault();
-    console.log("item", item);
+
     const errors = {};
+
     if (!item.name) {
       errors.name = "A name for the item is required";
     }
@@ -41,20 +46,25 @@ function AddItem({ addItemToList, setErrors, errors }) {
     if (!item.price.includes("$")) {
       errors.price = "Must be in dollar format and include a `$`";
     }
+    if (item.price.includes("$") && !item.price.match(/\d+/g)) {
+      errors.price = "Must include a number";
+    }
     if (!item.price) {
       errors.price = "A price is required";
     }
-    if (Object.keys(errors).length !== 0) {
-      console.log("here");
+    if (Object.keys(errors).length > 0) {
       setErrors(errors);
     } else {
+      if (!item.price.includes(".")) {
+        item.price += ".00";
+      }
       addItemToList(item);
       setItem({
         name: "",
         category: "",
         price: "",
       });
-      setErrors({})
+      setErrors({});
     }
   };
 

@@ -13,10 +13,15 @@ import { setCategoryFilters } from "../redux/actions";
 import { connect } from "react-redux";
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    margin: "auto",
+    marginBottom: "4em",
+    marginTop: "2em",
+    width: 350,
+  },
   formControl: {
     margin: theme.spacing(1),
-    minWidth: 120,
-    maxWidth: 300,
+    width: 350
   },
   chips: {
     display: "flex",
@@ -61,7 +66,7 @@ function FilterItems({ setCategoryFilters, filters }) {
   const handleChange = e => {
     // setCategories(event.target.value);
     // console.log("e.target.value", e.target.value);
-    setCategoryFilters(e.target.value)
+    setCategoryFilters(e.target.value);
   };
 
   // useEffect(() => {
@@ -90,7 +95,7 @@ function FilterItems({ setCategoryFilters, filters }) {
   // };
 
   return (
-    <div>
+    <div className={classes.root}>
       <FormControl className={classes.formControl}>
         <InputLabel id="demo-mutiple-chip-label">Filter</InputLabel>
         <Select
