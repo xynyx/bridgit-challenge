@@ -1,8 +1,10 @@
-import React from 'react';
-import './App.css';
-import logo from './images/bridgitb-w.svg';
+import React from "react";
+import "./App.css";
+import logo from "./images/bridgitb-w.svg";
 import AddItem from "./components/AddItem";
-import FilterItems from "./components/FilterItems"
+import FilterItems from "./components/FilterItems";
+import ItemTable from "./components/ItemTable";
+
 
 const App = () => (
   <>
@@ -13,6 +15,7 @@ const App = () => (
     <section className="app-content">
       <AddItem />
       <FilterItems />
+      <ItemTable />
     </section>
   </>
 );
