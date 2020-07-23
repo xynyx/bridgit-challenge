@@ -24,13 +24,18 @@ function AddItem(props) {
   const [item, setItem] = useState({
     item: "",
     category: "",
-    value: "",
+    price: "",
   });
 
   const handleAddItem = e => {
     e.preventDefault();
     console.log("item", item);
     props.addItemToList(item);
+    setItem({
+      item: "",
+      category: "",
+      price: "",
+    });
   };
 
   const handleItemChange = e => {
@@ -44,13 +49,24 @@ function AddItem(props) {
       noValidate
       autoComplete="off"
     >
-      <TextFieldInput onChange={handleItemChange} name="item" label="Item" />
+      <TextFieldInput
+        onChange={handleItemChange}
+        value={item.item}
+        name="item"
+        label="Item"
+      />
       <TextFieldInput
         onChange={handleItemChange}
         name="category"
         label="Category"
+        value={item.category}
       />
-      <TextFieldInput onChange={handleItemChange} name="price" label="Price" />
+      <TextFieldInput
+        onChange={handleItemChange}
+        value={item.price}
+        name="price"
+        label="Price"
+      />
       <Button
         className={classes.button}
         type="submit"
