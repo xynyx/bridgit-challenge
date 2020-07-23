@@ -61,11 +61,31 @@ function ItemTable({ items }) {
       <TableHead>
         {headerGroups.map(headerGroup => (
           <TableRow {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map(column => (
-              <TableCell {...column.getHeaderProps()}>
-                {column.render("Header")}
-              </TableCell>
-            ))}
+            {headerGroup.headers.map((column, index) => {
+              return index === columns.length - 1 ? (
+                <TableCell {...column.getHeaderProps()}>
+                  {column.render("Header")}
+                </TableCell>
+              ) : (
+                <TableCell
+                  {...column.getHeaderProps(column.getSortByToggleProps())}
+                >
+                  {column.render("Header")}
+                  {console.log(index)}
+                  {index === columns.length - 1 ? (
+                    ""
+                  ) : (
+                    <span>
+                      {column.isSorted
+                        ? column.isSortedDesc
+                          ? " 🔽"
+                          : " 🔼"
+                        : ""}
+                    </span>
+                  )}
+                </TableCell>
+              );
+            })}
           </TableRow>
         ))}
       </TableHead>
@@ -77,7 +97,7 @@ function ItemTable({ items }) {
               {row.cells.map((cell, index) => {
                 return (
                   <TableCell {...cell.getCellProps()}>
-                    {index === columns.length - 1? (
+                    {index === columns.length - 1 ? (
                       <Button variant="contained" color="secondary">
                         Delete
                       </Button>
