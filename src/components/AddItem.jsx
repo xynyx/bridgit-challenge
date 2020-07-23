@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
+import TextField from '@material-ui/core/TextField';
 
 import TextFieldInput from "../common/TextFieldInput";
 import { addItemToList, setErrors } from "../redux/actions";
@@ -86,7 +87,7 @@ function AddItem({ addItemToList, setErrors, errors }) {
       noValidate
       autoComplete="off"
     >
-      <TextFieldInput
+      <TextField
         onChange={handleItemChange}
         name="name"
         label="Item"
@@ -94,7 +95,7 @@ function AddItem({ addItemToList, setErrors, errors }) {
         error={errors.name}
         helperText={errors.name}
       />
-      <TextFieldInput
+      <TextField
         onChange={handleItemChange}
         name="category"
         label="Category"
@@ -102,7 +103,7 @@ function AddItem({ addItemToList, setErrors, errors }) {
         error={errors.category}
         helperText={errors.category}
       />
-      <TextFieldInput
+      <TextField
         onChange={handleItemChange}
         name="price"
         label="Price"
