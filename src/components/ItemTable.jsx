@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo, useEffect } from "react";
 
 import MaUTable from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -12,8 +12,9 @@ import { connect } from "react-redux";
 
 // import makeData from "./makeData";
 
-function ItemTable() {
-  const columns = React.useMemo(
+function ItemTable({ items }) {
+  console.log("item", items);
+  const columns = useMemo(
     () => [
       {
         Header: "Item",
@@ -35,23 +36,11 @@ function ItemTable() {
     []
   );
 
-  const data = [
-    {
-      name: "Carrot",
-      category: "Vegetable",
-      price: "$1.00",
-    },
-    {
-      name: "Chicken",
-      category: "Meat",
-      price: "$10.00",
-    },
-    {
-      name: "Raspberry",
-      category: "Fruit",
-      price: "$5.00",
-    },
-  ];
+  const data = useMemo(() => {
+    return items;
+  }, [items]);
+
+  // useEffect(() => {}, [items]);
 
   const {
     getTableProps,
@@ -67,10 +56,6 @@ function ItemTable() {
     useSortBy
   );
 
-  // // We don't want to render all 2000 rows for this example, so cap
-  // // it at 20 for this use case
-  // const firstPageRows = rows.slice(0, 20);
-
   return (
     <MaUTable {...getTableProps()}>
       <TableHead>
@@ -85,10 +70,7 @@ function ItemTable() {
         ))}
       </TableHead>
       <TableBody>
-        {rows.map((row, i) => {
-          {
-            /* console.log(i); */
-          }
+        {rows.map(row => {
           prepareRow(row);
           return (
             <TableRow {...row.getRowProps()}>
@@ -112,11 +94,11 @@ function ItemTable() {
     </MaUTable>
   );
 }
-// const mapStateToProps = state => {
-//   console.log("state", state.item);
-//   return { item: state.item };
-// };
+const mapStateToProps = state => {
+  console.log("state", state.item);
+  return { items: state.item };
+};
 
-export default connect()(ItemTable);
+export default connect(mapStateToProps)(ItemTable);
 
 // const data = React.useMemo(() => makeData(2000), []);

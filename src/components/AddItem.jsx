@@ -22,17 +22,16 @@ const useStyles = makeStyles(theme => ({
 function AddItem(props) {
   const classes = useStyles();
   const [item, setItem] = useState({
-    item: "",
+    name: "",
     category: "",
     price: "",
   });
 
   const handleAddItem = e => {
     e.preventDefault();
-    console.log("item", item);
     props.addItemToList(item);
     setItem({
-      item: "",
+      name: "",
       category: "",
       price: "",
     });
@@ -51,8 +50,8 @@ function AddItem(props) {
     >
       <TextFieldInput
         onChange={handleItemChange}
-        value={item.item}
-        name="item"
+        value={item.name}
+        name="name"
         label="Item"
       />
       <TextFieldInput
