@@ -3,8 +3,6 @@ import { SET_CATEGORY_FILTERS } from "../actionTypes";
 const initialState = [];
 
 export default function (state = initialState, action) {
-  console.log("stateHERE", state);
-  console.log('action', action.payload)
   switch (action.type) {
     case SET_CATEGORY_FILTERS:
       // if (state.includes(action.payload)) {

@@ -1,4 +1,9 @@
-import { ADD_ITEM, DELETE_ITEM, SET_CATEGORY_FILTERS } from "./actionTypes";
+import {
+  ADD_ITEM,
+  DELETE_ITEM,
+  SET_CATEGORY_FILTERS,
+  SET_ERRORS,
+} from "./actionTypes";
 
 export const addItemToList = item => dispatch => {
   dispatch({
@@ -19,5 +24,12 @@ export const setCategoryFilters = categories => dispatch => {
   dispatch({
     type: SET_CATEGORY_FILTERS,
     payload: categories,
+  });
+};
+
+export const setErrors = errors => dispatch => {
+  dispatch({
+    type: SET_ERRORS,
+    payload: errors,
   });
 };

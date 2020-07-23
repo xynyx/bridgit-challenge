@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import TextFieldInput from "../common/TextFieldInput";
 import Button from "@material-ui/core/Button";
 import { connect } from "react-redux";
-import { addItemToList } from "../redux/actions";
+import { addItemToList, setErrors } from "../redux/actions";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -19,7 +19,8 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function AddItem({ addItemToList }) {
+function AddItem({ addItemToList, setErrors, errors }) {
+  console.log("errors", errors);
   const classes = useStyles();
   const [item, setItem] = useState({
     name: "",
@@ -29,12 +30,32 @@ function AddItem({ addItemToList }) {
 
   const handleAddItem = e => {
     e.preventDefault();
-    addItemToList(item);
-    setItem({
-      name: "",
-      category: "",
-      price: "",
-    });
+    console.log("item", item);
+    const errors = {};
+    if (!item.name) {
+      errors.name = "A name for the item is required";
+    }
+    if (!item.category) {
+      errors.category = "A category is required";
+    }
+    if (!item.price.includes("$")) {
+      errors.price = "Must be in dollar format and include a `$`";
+    }
+    if (!item.price) {
+      errors.price = "A price is required";
+    }
+    if (Object.keys(errors).length !== 0) {
+      console.log("here");
+      setErrors(errors);
+    } else {
+      addItemToList(item);
+      setItem({
+        name: "",
+        category: "",
+        price: "",
+      });
+      setErrors({})
+    }
   };
 
   const handleItemChange = e => {
@@ -50,21 +71,28 @@ function AddItem({ addItemToList }) {
     >
       <TextFieldInput
         onChange={handleItemChange}
-        value={item.name}
         name="name"
         label="Item"
+        value={item.name}
+        error={errors.name}
+        helperText={errors.name}
       />
       <TextFieldInput
         onChange={handleItemChange}
         name="category"
         label="Category"
         value={item.category}
+        error={errors.category}
+        helperText={errors.category}
       />
       <TextFieldInput
         onChange={handleItemChange}
-        value={item.price}
         name="price"
         label="Price"
+        placeholder="$"
+        value={item.price}
+        error={errors.price}
+        helperText={errors.price}
       />
       <Button
         className={classes.button}
@@ -78,9 +106,8 @@ function AddItem({ addItemToList }) {
   );
 }
 
-// const mapStateToProps = state => {
-//   console.log("state", state.item);
-//   return { item: state.item };
-// };
+const mapStateToProps = state => {
+  return { errors: state.errors };
+};
 
-export default connect(null, { addItemToList })(AddItem);
+export default connect(mapStateToProps, { addItemToList, setErrors })(AddItem);

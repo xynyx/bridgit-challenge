@@ -12,7 +12,6 @@ import { useTable, useSortBy } from "react-table";
 import { connect } from "react-redux";
 
 function ItemTable({ items, deleteItemFromList, filters }) {
-  console.log('items', items)
   const columns = useMemo(
     () => [
       {
@@ -37,14 +36,11 @@ function ItemTable({ items, deleteItemFromList, filters }) {
 
   const itemsAfterFilter = () => {
     if (filters.length === 0) return items;
-    return items.filter(item => {
-      console.log('item', item)
-      return filters.includes(item.category);
-    });
+
+    return items.filter(item => filters.includes(item.category));
   };
 
   const data = useMemo(() => {
-    console.log('itemsAfterFilter()', itemsAfterFilter())
     return itemsAfterFilter();
   }, [items, filters]);
 
