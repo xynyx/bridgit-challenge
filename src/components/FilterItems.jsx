@@ -52,11 +52,11 @@ function getStyles(name, categories, theme) {
   };
 }
 
-function FilterItems({ setCategoryFilters, filters }) {
+function FilterItems({ setCategoryFilters, filters, items }) {
   const classes = useStyles();
   const theme = useTheme();
 
-  const categoryData = ["Vegetable", "Fruit", "Meat", "Grains"];
+  const categoryData = items.map(item => item.category);
 
   const handleChange = e => {
     setCategoryFilters(e.target.value);
@@ -98,7 +98,7 @@ function FilterItems({ setCategoryFilters, filters }) {
 }
 
 const mapStateToProps = state => {
-  return { items: state.item, filters: state.filters };
+  return { items: state.items, filters: state.filters };
 };
 
 export default connect(mapStateToProps, { setCategoryFilters })(FilterItems);

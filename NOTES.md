@@ -1,5 +1,3 @@
-# Matt's Notes
-
 ## Assumptions
 
 - Given the fact that you supplied redux and material UI pre-installed, I felt like incorporating these was required
