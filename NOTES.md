@@ -5,7 +5,7 @@
 ## Limitations
 
 - The table doesn't really handle cases where they may be hundreds of items on the list --> would be easy to add pagination but currently it doesn't have it
-- No way to add additional categories
+- No way to add additional categories without adding a new item with a new category
 - No way to edit items without deleting and re-adding
 
 ## Extra features
